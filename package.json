@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/test/env-file.ts",
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/ts-env.ts",
     "test": "tsc && node compiled/test/env-file"
   },
   "keywords": [],
