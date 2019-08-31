@@ -1,0 +1,20 @@
+{
+  "name": "ts-env",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/test/env-file.ts",
+    "test": "tsc && node compiled/test/env-file"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^12.7.2"
+  },
+  "devDependencies": {
+    "node-env-file": "^0.1.8",
+    "reflect-metadata": "^0.1.13"
+  }
+}
