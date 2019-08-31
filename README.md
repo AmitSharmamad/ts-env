@@ -5,7 +5,6 @@ typescript support for .env files
 
 *.env file*
 ```
-
 withoutQuotes=without quotes
 DOUBLE_QUOTED_STRING="double quotes"
 single_quoted_string='single quotes'
@@ -15,10 +14,14 @@ stringifiedBool=false
 
 plain_number=9
 stringifiedNumber=18
+
+URL=https://www.google.com
 ```
 
 *app.ts*
 ```
+import { Env, Value } from 'ts-env';
+
 @Env({
     strict: true,
     path: '.env'
@@ -54,6 +57,14 @@ class TestEnv {
     @Value()
     static stringifiedNumber: number;
 
+    @Value({
+        alias: 'URL',
+        validate: (url) => {
+            return /https:\/\/www\.google\.com/.test(url);
+        }
+    })
+    static validatedUrl: string;
+
 }
 
 console.log(TestEnv.withoutQuotes);
@@ -65,6 +76,8 @@ console.log(TestEnv.stringifiedBool);
 
 console.log(TestEnv.plainNumber);
 console.log(TestEnv.stringifiedNumber);
+
+console.log(TestEnv.validatedUrl);
 ```
 
 

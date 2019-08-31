@@ -2,11 +2,13 @@ import 'reflect-metadata';
 import * as env from 'node-env-file';
 
 type SupportedTypes = 'String' | 'Number' | 'Boolean';
+type ValueValidator = (value: any) => boolean;
 
 interface Valuable {
     name: string;
     alias?: string;
     type: SupportedTypes;
+    validation: ValueValidator;
 }
 
 const store: {
@@ -15,33 +17,39 @@ const store: {
 
 export function Value(options?: {
     /** Key in the env file */
-    alias: string;
+    alias?: string;
+    /** Callback to validate values such as urls, etc... */
+    validate?: ValueValidator;
 }): PropertyDecorator {
     return function (target: any, propertyKey: string) {
         // store all the properties in a store
-        const name = target.constructor.name;
+        const name = target.name;
         if (!store[name]) {
             store[name] = [];
         }
         const type = Reflect.getOwnMetadata('design:type', target, propertyKey);
         let value: Valuable;
         const alias = options && options.alias;
+        const validation = options && options.validate;
         switch (type.name) {
             case 'String': {
                 value = {
-                    name: propertyKey, type: 'String', alias
+                    name: propertyKey, type: 'String', alias,
+                    validation
                 };
                 break;
             }
             case 'Number': {
                 value = {
-                    name: propertyKey, type: 'Number', alias
+                    name: propertyKey, type: 'Number', alias,
+                    validation
                 };
                 break;
             }
             case 'Boolean': {
                 value = {
-                    name: propertyKey, type: 'Boolean', alias
+                    name: propertyKey, type: 'Boolean', alias,
+                    validation
                 };
                 break;
             }
@@ -60,10 +68,15 @@ export function Env(options?: {
     strict?: boolean;
 }): ClassDecorator {
     return function (target: any) {
-        const { path, strict } = options;
+        const path = options && options.path;
+        const strict = options && options.strict;
         try {
-            const name = target.constructor.name;
-            env(path || '.env');
+            const name = target.name;
+            try {
+                env(path || '.env');
+            } catch (error) {
+                throw `Couldn't find a .env file at ${path}`;
+            }
             if (!store[name]) {
                 throw `Couldn't find 'env' class`;
             }
@@ -72,7 +85,7 @@ export function Env(options?: {
             }
             const $env = process.env;
             store[name].forEach(property => {
-                const { name, type, alias } = property;
+                const { name, type, alias, validation } = property;
                 switch (type) {
                     case 'String': {
                         target[name] = $env[alias || name];
@@ -88,6 +101,16 @@ export function Env(options?: {
                     }
                     default: {
                         throw `Unsupported type`;
+                    }
+                }
+                // If a validation function is provided
+                if (validation) {
+                    const result = validation.call(target, target[name]);
+                    console.log(result);
+                    if (!result) {
+                        const message = `Validation failed for the key ${name}`;
+                        if (strict) throw message;
+                        else console.log(message);
                     }
                 }
                 if (target[name] == undefined)
