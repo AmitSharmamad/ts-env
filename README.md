@@ -3,7 +3,9 @@ typescript support for .env files
 
 # Usage
 
+*.env file*
 ```
+
 withoutQuotes=without quotes
 DOUBLE_QUOTED_STRING="double quotes"
 single_quoted_string='single quotes'
@@ -15,6 +17,7 @@ plain_number=9
 stringifiedNumber=18
 ```
 
+*app.ts*
 ```
 @Env({
     strict: true,
