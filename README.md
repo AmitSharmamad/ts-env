@@ -1,10 +1,9 @@
 # ts-env
 typescript support for .env files
 
-Usage
+# Usage
 
-/----------------------------------------------------/
-
+```
 withoutQuotes=without quotes
 DOUBLE_QUOTED_STRING="double quotes"
 single_quoted_string='single quotes'
@@ -14,9 +13,9 @@ stringifiedBool=false
 
 plain_number=9
 stringifiedNumber=18
+```
 
-/----------------------------------------------------/
-
+```
 @Env({
     strict: true,
     path: '.env'
@@ -63,8 +62,9 @@ console.log(TestEnv.stringifiedBool);
 
 console.log(TestEnv.plainNumber);
 console.log(TestEnv.stringifiedNumber);
+```
 
-/----------------------------------------------------/
+
 
 
 
