@@ -18,6 +18,19 @@ stringifiedNumber=18
 URL=https://www.google.com
 ```
 
+```
+Works only on static properties
+Any non-static members in the env file are not allowed
+
+It is recommended to set `strict: true`,
+with which the actual purpose of the library is achieved
+
+Any non-static members, declared in the class,
+are not set into the Custom Env class that is decorated
+with `Env`
+
+```
+
 *app.ts*
 ```
 import { Env, Value } from 'ts-env';

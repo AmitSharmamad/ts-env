@@ -8,7 +8,7 @@ interface Valuable {
     name: string;
     alias?: string;
     type: SupportedTypes;
-    validation: ValueValidator;
+    validation?: ValueValidator;
 }
 
 const store: {
@@ -77,9 +77,21 @@ export function Env(options?: {
             } catch (error) {
                 throw `Couldn't find a .env file at ${path}`;
             }
+            if (store.hasOwnProperty(undefined)) {
+                const nonStaticMembers = store[typeof undefined];
+                if (nonStaticMembers.length) {
+                    const message = `Non static members are allowed in env files.
+Please fix the following non static members.
+${nonStaticMembers.map(nonStaticMember => ` - ${nonStaticMember.name}`).join(', ')}`;
+                    if (strict)
+                        throw message;
+                    else console.log(message);
+                }
+            }
             if (!store[name]) {
                 throw `Couldn't find 'env' class`;
             }
+            console.log(store);
             if (Object.keys(store).length > 1) {
                 throw `Sorry, only one env file is supported for now`;
             }

@@ -1,7 +1,7 @@
 {
   "name": "ts-env",
   "version": "1.0.0",
-  "description": "",
+  "description": "Typescript support for .env files",
   "main": "index.js",
   "scripts": {
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/ts-env.ts",
