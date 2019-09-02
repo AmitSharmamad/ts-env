@@ -1,5 +1,5 @@
 {
-  "name": "ts-env",
+  "name": "ts-env-support",
   "version": "1.0.0",
   "description": "Typescript support for .env files",
   "main": "index.js",
