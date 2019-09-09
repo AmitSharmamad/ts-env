@@ -1,4 +1,5 @@
 compiled
+tsconfig.json
 node_modules
 package-lock.json
 test
