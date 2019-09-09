@@ -43,7 +43,7 @@ export function notEquals(value: number): numberSupportedType;
 
 // url supported functions
 
-export function isUrl(): stringSupportedType;
+export function isUrl(): boolean;
 export function isUrlPath(value: string): stringSupportedType;
 
 // combinator supported functions

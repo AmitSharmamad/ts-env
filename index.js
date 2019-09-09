@@ -166,12 +166,10 @@ exports.notEquals = function notEquals(any) {
 
 // URL operators
 
-exports.exports = function isURL() {
-    return function (value) {
-        try {
-            new URL(value); return true;
-        } catch (e) { return false };
-    }
+exports.isUrl = function isUrl(value) {
+    try {
+        new URL(value); return true;
+    } catch (e) { return false };
 }
 
 exports.isPath = function isPath(pathname) {
