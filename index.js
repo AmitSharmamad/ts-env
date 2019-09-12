@@ -90,7 +90,7 @@ exports.Env = function (options) {
                         break;
                     }
                     case 'Boolean': {
-                        target[name] = Boolean($env[alias || name]);
+                        target[name] = $env[alias || name] == 'true';
                         break;
                     }
                     default: {
